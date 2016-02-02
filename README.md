@@ -78,3 +78,6 @@ Scanning user [kato]
                 Virus found: [Introduction to Dr Frikandel] [FOUND] [Eicar-Test-Signature]
                 Autoremoving attachment: [Introduction to Dr Frikandel] [eicar.com]
 ```
+# Todo's
+- Except on attachment errors
+- Except on emails with errors
