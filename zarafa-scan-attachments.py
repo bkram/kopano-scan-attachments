@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # vim: tabstop=8 expandtab shiftwidth=4 softtabstop=4
-
 import zarafa
 from MAPICore import *
 from six import BytesIO
@@ -20,11 +19,14 @@ def opt_args():
 
 def scanmail(clam, email, autoremove):
     for attachment in email.attachments():
-        result = clam.instream(BytesIO(attachment.data))
-        if result['stream'][0] == 'FOUND':
-            print '\t\tVirus found: [%s] [%s] [%s]' % (email.subject, result['stream'][0], result['stream'][1])
-            if autoremove:
-                delete(email, attachment)
+        try:
+            result = clam.instream(BytesIO(attachment.data))
+            if result['stream'][0] == 'FOUND':
+                print '\t\tVirus found: [%s] [%s] [%s]' % (email.subject, result['stream'][0], result['stream'][1])
+                if autoremove:
+                    delete(email, attachment)
+        except Exception as e:
+            print "\tUnable to scan attachment: [%s] [%s] [%s]" % (email.subject, attachment.name, e)
 
 
 def delete(email, attachment):
@@ -46,9 +48,9 @@ def main():
     else:
         conn = zarafa.Server(options=options)
         for user in conn.users():
-            print 'Scanning user [%s]' % user.name
+            print 'Scanning user: [%s]' % user.name
             for folder in user.store.folders():
-                print '\tScanning folder [%s]' % folder.name
+                print '\tScanning folder: [%s]' % folder.name
                 for item in folder.items():
                     scanmail(clam, item, options.autoremove)
 
