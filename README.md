@@ -79,5 +79,4 @@ Scanning user [kato]
                 Autoremoving attachment: [Introduction to Dr Frikandel] [eicar.com]
 ```
 # Todo's
-- Except on attachment errors
-- Except on emails with errors
+- None at the moment, suggestions are welcomed
