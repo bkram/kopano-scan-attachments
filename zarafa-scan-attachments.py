@@ -10,29 +10,21 @@ import clamd
 
 def opt_args():
     parser = zarafa.parser('skpcubeC')
-    parser.add_option("--all", dest="all", action="store_true",
-                      default=False, help="run program for all users")
-    parser.add_option("--autoremove", dest="autoremove", action="store_true", default=False,
-                      help="remove infected attachments")
-    return parser.parse_args()
-
-
-def scanmail(clam, email, autoremove):
-    for attachment in email.attachments():
-        try:
-            result = clam.instream(BytesIO(attachment.data))
             if result['stream'][0] == 'FOUND':
                 print '\t\tVirus found: [%s] [%s] [%s]' % (email.subject, result['stream'][0], result['stream'][1])
                 if autoremove:
-                    delete(email, attachment)
+                    delete(email, attachment, str(result['stream'][1]))
         except Exception as e:
             print "\tUnable to scan attachment: [%s] [%s] [%s]" % (email.subject, attachment.name, e)
 
 
-def delete(email, attachment):
+def delete(email, attachment, virus):
     print '\t\tAutoremoving attachment: [%s] [%s]' % (email.subject, attachment.name)
     email.mapiobj.DeleteAttach(int(attachment.number), 0, None, 0)
     email.mapiobj.SaveChanges(KEEP_OPEN_READWRITE)
+    message = 'The attachment with the name %s has been removed because it was infected with %s' % (
+        attachment.name, virus)
+    email.create_attachment('virus-removed.txt', message)
 
 
 def main():
