@@ -31,8 +31,7 @@ def scanmail(clam, email, autoremove):
 
 def delete(email, attachment, virus):
     print '\t\tAutoremoving attachment: [%s] [%s]' % (email.subject, attachment.name)
-    email.mapiobj.DeleteAttach(int(attachment.number), 0, None, 0)
-    email.mapiobj.SaveChanges(KEEP_OPEN_READWRITE)
+    email.delete(attachment)
     message = 'The attachment with the name %s has been removed because it was infected with %s' % (
         attachment.name, virus)
     email.create_attachment('virus-removed.txt', message)
