@@ -1,4 +1,4 @@
-# zarafa-scan-attachments.py
+# kopano-scan-attachments.py
 Python program to scan all attachments of a Zarafa/Kopano user with ClamAV and if required remove them if infected.
 
 ## Python Requirements
@@ -12,6 +12,9 @@ Python program to scan all attachments of a Zarafa/Kopano user with ClamAV and i
 
 ## Kopano
 Tested with version Kopano Core 8.4.5.0
+
+## Zarafa
+Currently untested, presumed still to work.
 
 # Command line options
 ```
@@ -31,7 +34,7 @@ Options:
 # Some Examples
 ## Run only scanning user kato
 ```
-$ python zarafa-scan-attachments.py -u kato
+$ python kopano-scan-attachments.py -u kato
 ```
 ```
 Scanning user [kato]
@@ -56,7 +59,7 @@ Scanning user [kato]
 ```
 ## Run for user kato and autoremove any infected items
 ```bash
-$ python zarafa-scan-attachments -u kato --autoremove
+$ python kopano-scan-attachments -u kato --autoremove
 ```
 ```
 Scanning user [kato]
